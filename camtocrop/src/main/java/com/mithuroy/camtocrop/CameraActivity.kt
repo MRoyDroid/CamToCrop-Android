@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.annotation.ColorRes
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v4.content.res.ResourcesCompat
@@ -47,6 +48,12 @@ class CameraActivity : AppCompatActivity() {
     fun start(activity: Activity, requestCode: Int = REQUEST_IMAGE_PATH) {
         val intent = getIntent(activity)
         activity.startActivityForResult(intent, requestCode)
+    }
+
+    @JvmOverloads
+    fun start(fragment: Fragment, requestCode: Int = REQUEST_IMAGE_PATH) {
+        val intent = getIntent(fragment.context as Activity)
+        fragment.startActivityForResult(intent, requestCode)
     }
 
     private fun getIntent(activity: Activity): Intent {
