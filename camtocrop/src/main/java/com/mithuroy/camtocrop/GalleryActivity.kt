@@ -74,6 +74,9 @@ class GalleryActivity : AppCompatActivity() {
                     finish()
                 }
             }
+        } else {
+            setResult(Activity.RESULT_CANCELED)
+            finish()
         }
     }
 
