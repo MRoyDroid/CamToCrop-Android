@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.mithuroy.camtocrop.util.generateRandomNumber
 import com.yalantis.ucrop.UCrop
@@ -24,6 +25,11 @@ class GalleryActivity : AppCompatActivity() {
     @JvmOverloads
     fun start(activity: Activity, requestCode: Int = REQUEST_GALLERY_IMAGE) {
         activity.startActivityForResult(Intent(activity, GalleryActivity::class.java), requestCode)
+    }
+
+    @JvmOverloads
+    fun start(fragment: Fragment, requestCode: Int = REQUEST_GALLERY_IMAGE) {
+        fragment.startActivityForResult(Intent(fragment.activity, GalleryActivity::class.java), requestCode)
     }
 
     private fun startGallery() {

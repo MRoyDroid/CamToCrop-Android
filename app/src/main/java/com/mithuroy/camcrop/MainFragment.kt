@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import com.mithuroy.camtocrop.CameraActivity
 import com.mithuroy.camtocrop.CameraActivity.Companion.IMAGE_PATH
 import com.mithuroy.camtocrop.CameraActivity.Companion.REQUEST_IMAGE_PATH
+import com.mithuroy.camtocrop.GalleryActivity
+import com.mithuroy.camtocrop.GalleryActivity.Companion.REQUEST_GALLERY_IMAGE
 
 /**
  * Created by Mithu on June'08 2018
@@ -24,7 +26,8 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_main, container, false)
-        CameraActivity().start(this)
+//        CameraActivity().start(this)
+        GalleryActivity().start(this)
         return view
     }
 
@@ -33,6 +36,7 @@ class MainFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK && data != null) {
             when (requestCode) {
                 REQUEST_IMAGE_PATH -> Log.d("FilePath", data.getStringExtra(IMAGE_PATH))
+                REQUEST_GALLERY_IMAGE -> Log.d("FilePath", data.getStringExtra(IMAGE_PATH))
             }
         }
     }

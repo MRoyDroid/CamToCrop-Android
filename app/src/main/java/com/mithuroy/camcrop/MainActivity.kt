@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         btnOpenGallery.setOnClickListener { GalleryActivity().start(this) }
 
-//        startFragment()
+        startFragment()
     }
 
     private fun startFragment() {
