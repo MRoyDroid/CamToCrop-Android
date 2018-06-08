@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import com.mithuroy.camtocrop.CameraActivity
 import com.mithuroy.camtocrop.CameraActivity.Companion.IMAGE_PATH
 import com.mithuroy.camtocrop.CameraActivity.Companion.REQUEST_IMAGE_PATH
+import com.mithuroy.camtocrop.GalleryActivity
+import com.mithuroy.camtocrop.GalleryActivity.Companion.REQUEST_GALLERY_IMAGE
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
@@ -18,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btnTakePhoto.setOnClickListener { CameraActivity().start(this) }
+
+        btnOpenGallery.setOnClickListener { GalleryActivity().start(this) }
 
 //        startFragment()
     }
@@ -32,16 +36,13 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && data != null) {
             when (requestCode) {
-                REQUEST_IMAGE_PATH -> imageView.setImageURI(
-                    Uri.fromFile(
-                        File(
-                            data.getStringExtra(
-                                IMAGE_PATH
-                            )
-                        )
-                    )
-                )
+                REQUEST_IMAGE_PATH -> setImage(data.getStringExtra(IMAGE_PATH))
+                REQUEST_GALLERY_IMAGE -> setImage(data.getStringExtra(IMAGE_PATH))
             }
         }
+    }
+
+    private fun setImage(imagePath: String) {
+        imageView.setImageURI(Uri.fromFile(File(imagePath)))
     }
 }
