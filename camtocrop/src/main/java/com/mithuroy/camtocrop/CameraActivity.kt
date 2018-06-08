@@ -17,11 +17,10 @@ import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
+import com.mithuroy.camtocrop.util.generateRandomNumber
 import com.yalantis.ucrop.UCrop
 import java.io.File
 import java.io.IOException
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 class CameraActivity : AppCompatActivity() {
 
@@ -97,23 +96,23 @@ class CameraActivity : AppCompatActivity() {
 
     private fun onClickTakePhoto() {
         if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
             callCameraApp()
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     Toast.makeText(
-                            this,
-                            "External storage permission required to save images",
-                            Toast.LENGTH_SHORT
+                        this,
+                        "External storage permission required to save images",
+                        Toast.LENGTH_SHORT
                     ).show()
                 }
                 requestPermissions(
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                        REQUEST_EXTERNAL_STORAGE_RESULT
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    REQUEST_EXTERNAL_STORAGE_RESULT
                 )
             } else {
                 callCameraApp()
@@ -149,33 +148,12 @@ class CameraActivity : AppCompatActivity() {
     private fun createImageFile(): File {
         val imageFileName = "${generateRandomNumber()}${generateRandomNumber()}"
         val storageDirectory =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
 
         val image = File.createTempFile(imageFileName, ".jpg", storageDirectory)
         mImageFileLocation = image.absolutePath
 
         return image
-    }
-
-    private fun generateRandomNumber(): String {
-        val instance: MessageDigest?
-        var hexString: StringBuilder? = null
-        try {
-            instance = MessageDigest.getInstance("MD5")
-            val messageDigest = instance!!.digest(System.nanoTime().toString().toByteArray())
-            hexString = StringBuilder()
-            for (aMessageDigest in messageDigest) {
-                val hex = Integer.toHexString(0xFF and aMessageDigest.toInt())
-                if (hex.length == 1) {
-                    hexString.append('0')
-                }
-                hexString.append(hex)
-            }
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        }
-
-        return hexString!!.toString()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -211,9 +189,9 @@ class CameraActivity : AppCompatActivity() {
 
 
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
     ) {
         if (requestCode == REQUEST_EXTERNAL_STORAGE_RESULT) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -231,24 +209,24 @@ class CameraActivity : AppCompatActivity() {
         val uCrop = UCrop.of(Uri.fromFile(File(imagePath)), Uri.fromFile(File(imagePath)))
         val options = UCrop.Options()
         options.setToolbarColor(
-                ResourcesCompat.getColor(
-                        resources,
-                        intent.getIntExtra(TOOLBAR_COLOR, toolbarColor),
-                        theme
-                )
+            ResourcesCompat.getColor(
+                resources,
+                intent.getIntExtra(TOOLBAR_COLOR, toolbarColor),
+                theme
+            )
         )
         options.setStatusBarColor(
-                ResourcesCompat.getColor(
-                        resources,
-                        intent.getIntExtra(STATUS_BAR_COLOR, statusBarColor),
-                        theme
-                )
+            ResourcesCompat.getColor(
+                resources,
+                intent.getIntExtra(STATUS_BAR_COLOR, statusBarColor),
+                theme
+            )
         )
         options.setHideBottomControls(true)
         uCrop.withOptions(options)
         uCrop.withAspectRatio(
-                intent.getFloatExtra(RATIO_X, x),
-                intent.getFloatExtra(RATIO_Y, y)
+            intent.getFloatExtra(RATIO_X, x),
+            intent.getFloatExtra(RATIO_Y, y)
         )
         uCrop.start(this, ACTIVITY_START_UCROP)
     }
