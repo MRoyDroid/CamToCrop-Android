@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         btnOpenGallery.setOnClickListener { GalleryActivity().start(this) }
 
-        startFragment()
+//        startFragment()
     }
 
     private fun startFragment() {
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK && data != null) {
             when (requestCode) {
                 REQUEST_IMAGE_PATH -> setImage(data.getStringExtra(IMAGE_PATH))
-                REQUEST_GALLERY_IMAGE -> setImage(data.getStringExtra(IMAGE_PATH))
+                REQUEST_GALLERY_IMAGE -> setImage(data.getStringExtra(GalleryActivity.IMAGE_PATH))
             }
         }
     }
