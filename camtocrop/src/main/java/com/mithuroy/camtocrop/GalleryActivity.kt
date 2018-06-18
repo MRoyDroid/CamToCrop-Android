@@ -20,6 +20,7 @@ class GalleryActivity : AppCompatActivity() {
     companion object {
         private const val REQUEST_GALLERY = 1005
         const val REQUEST_GALLERY_IMAGE = 1006
+        const val IMAGE_PATH = "IMAGE_PATH"
     }
 
     @JvmOverloads
@@ -74,7 +75,7 @@ class GalleryActivity : AppCompatActivity() {
                 }
                 REQUEST_GALLERY_IMAGE -> {
                     val uri = UCrop.getOutput(data)
-                    intent.putExtra("IMAGE_PATH", uri?.path)
+                    intent.putExtra(IMAGE_PATH, uri?.path)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
 
