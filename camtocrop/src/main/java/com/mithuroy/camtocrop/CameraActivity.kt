@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -34,6 +35,7 @@ class CameraActivity : AppCompatActivity() {
         private const val STATUS_BAR_COLOR = "STATUS_BAR_COLOR"
         private const val RATIO_X = "RATIO_X"
         private const val RATIO_Y = "RATIO_Y"
+        private const val COMPRESSION_QUALITY = 10
         const val IMAGE_PATH = "IMAGE_PATH"
     }
 
@@ -223,6 +225,8 @@ class CameraActivity : AppCompatActivity() {
             )
         )
         options.setHideBottomControls(true)
+        options.setCompressionFormat(Bitmap.CompressFormat.JPEG)
+        options.setCompressionQuality(COMPRESSION_QUALITY)
         uCrop.withOptions(options)
         uCrop.withAspectRatio(
             intent.getFloatExtra(RATIO_X, x),
