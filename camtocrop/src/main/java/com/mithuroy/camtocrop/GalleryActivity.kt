@@ -24,6 +24,7 @@ class GalleryActivity : AppCompatActivity() {
         private const val REQUEST_GALLERY = 1005
         const val REQUEST_GALLERY_IMAGE = 1006
         private const val CROP_ENABLED = "CROP_ENABLED"
+        private const val FREE_STYLE_CROP_ENABLED = "FREE_STYLE_CROP_ENABLED"
         private const val TOOLBAR_COLOR = "TOOLBAR_COLOR"
         private const val STATUS_BAR_COLOR = "STATUS_BAR_COLOR"
         private const val RATIO_X = "RATIO_X"
@@ -37,6 +38,7 @@ class GalleryActivity : AppCompatActivity() {
     private var toolbarColor = android.R.color.holo_blue_bright
     private var statusBarColor = android.R.color.holo_blue_dark
     private var isCropEnabled = true
+    private var isFreeStyleCropEnabled = false
 
     @JvmOverloads
     fun start(activity: Activity, requestCode: Int = REQUEST_GALLERY_IMAGE) {
@@ -53,6 +55,7 @@ class GalleryActivity : AppCompatActivity() {
     private fun getIntent(activity: Activity): Intent {
         val intent = Intent(activity, GalleryActivity::class.java)
         intent.putExtra(GalleryActivity.CROP_ENABLED, isCropEnabled)
+        intent.putExtra(FREE_STYLE_CROP_ENABLED, isFreeStyleCropEnabled)
         intent.putExtra(GalleryActivity.TOOLBAR_COLOR, toolbarColor)
         intent.putExtra(GalleryActivity.STATUS_BAR_COLOR, statusBarColor)
         intent.putExtra(GalleryActivity.RATIO_X, x)
@@ -68,6 +71,11 @@ class GalleryActivity : AppCompatActivity() {
 
     fun setCropEnabled(isCropEnabled: Boolean): GalleryActivity {
         this.isCropEnabled = isCropEnabled
+        return this
+    }
+
+    fun setFreeStyleCropEnabled(isFreeStyleCropEnabled: Boolean): GalleryActivity {
+        this.isFreeStyleCropEnabled = isFreeStyleCropEnabled
         return this
     }
 
@@ -153,11 +161,18 @@ class GalleryActivity : AppCompatActivity() {
         options.setHideBottomControls(true)
         options.setCompressionFormat(Bitmap.CompressFormat.JPEG)
         options.setCompressionQuality(COMPRESSION_QUALITY)
-        uCrop.withOptions(options)
-        uCrop.withAspectRatio(
-            intent.getFloatExtra(GalleryActivity.RATIO_X, x),
-            intent.getFloatExtra(GalleryActivity.RATIO_Y, y)
+        options.setFreeStyleCropEnabled(
+            intent.getBooleanExtra(FREE_STYLE_CROP_ENABLED, isFreeStyleCropEnabled)
         )
+        uCrop.withOptions(options)
+
+        if (intent.getBooleanExtra(FREE_STYLE_CROP_ENABLED, isFreeStyleCropEnabled)) {
+            uCrop.withAspectRatio(
+                intent.getFloatExtra(GalleryActivity.RATIO_X, x),
+                intent.getFloatExtra(GalleryActivity.RATIO_Y, y)
+            )
+        }
+
         uCrop.start(this, GalleryActivity.REQUEST_GALLERY_IMAGE)
     }
 }
