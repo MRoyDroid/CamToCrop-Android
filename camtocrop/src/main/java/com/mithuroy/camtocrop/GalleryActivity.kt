@@ -29,7 +29,7 @@ class GalleryActivity : AppCompatActivity() {
         private const val STATUS_BAR_COLOR = "STATUS_BAR_COLOR"
         private const val RATIO_X = "RATIO_X"
         private const val RATIO_Y = "RATIO_Y"
-        private const val COMPRESSION_QUALITY = 100
+        private const val COMPRESSION_QUALITY = 80
         const val IMAGE_PATH = "IMAGE_PATH"
     }
 
